@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Your Channel - SkillSwap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .setup-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .page-header p {
+            color: #6c757d;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .category-select {
+            position: relative;
+        }
+        
+        .category-select select {
+            appearance: none;
+            padding-right: 2.5rem;
+        }
+        
+        .category-select::after {
+            content: "▼";
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--dark);
+            font-size: 0.7rem;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #ced4da;
+            border-radius: var(--border-radius);
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-light);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-upload i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload p {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        
+        .preview-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid white;
+            box-shadow: var(--box-shadow);
+            display: none;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .setup-card {
+                padding: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Setup Your Channel</h1>
+            <p>Customize your SkillSwap creator profile</p>
+        </div>
+        
+        <div class="setup-card">
+            <form action="{{ url_for('main.setup_channel') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="channel_name">Channel Name</label>
+                    <input type="text" id="channel_name" name="channel_name" class="form-control" 
+                           value="{{ user.channel_name or '' }}" placeholder="Enter your channel name" required>
+                </div>
+                
+                <div class="form-group category-select">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-control" required>
+                        <option value="">Select your category</option>
+                        <option value="Technology" {% if user.category == 'Technology' %}selected{% endif %}>Technology</option>
+                        <option value="Art & Design" {% if user.category == 'Art & Design' %}selected{% endif %}>Art & Design</option>
+                        <option value="Business" {% if user.category == 'Business' %}selected{% endif %}>Business</option>
+                        <option value="Education" {% if user.category == 'Education' %}selected{% endif %}>Education</option>
+                        <option value="Music" {% if user.category == 'Music' %}selected{% endif %}>Music</option>
+                        <option value="Photography" {% if user.category == 'Photography' %}selected{% endif %}>Photography</option>
+                        <option value="Cooking" {% if user.category == 'Cooking' %}selected{% endif %}>Cooking</option>
+                        <option value="Other" {% if user.category == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <div class="file-upload" id="uploadContainer">
+                        {% if user.profile_picture %}
+                            <img src="{{ url_for('static', filename='profiles/' ~ user.profile_picture) }}" 
+                                 class="preview-image" id="previewImage" style="display: block;">
+                            <p id="uploadText">Click to change profile picture</p>
+                        {% else %}
+                            <img src="" class="preview-image" id="previewImage">
+                            <i class="fas fa-user-circle"></i>
+                            <p id="uploadText">Click to upload profile picture</p>
+                        {% endif %}
+                        <small>Recommended size: 500x500px (JPG, PNG)</small>
+                        <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bio">Channel Bio (Optional)</label>
+                    <textarea id="bio" name="bio" class="form-control" 
+                              placeholder="Tell viewers about your channel" rows="4">{{ user.bio or '' }}</textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{{ url_for('main.creator_dashboard') }}" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Profile picture upload preview
+        const uploadContainer = document.getElementById('uploadContainer');
+        const fileInput = document.getElementById('profile_picture');
+        const previewImage = document.getElementById('previewImage');
+        const uploadText = document.getElementById('uploadText');
+        
+        uploadContainer.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewImage.style.display = 'block';
+                    uploadText.textContent = 'Click to change profile picture';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Add character counter for bio
+        const bioTextarea = document.getElementById('bio');
+        const bioCounter = document.createElement('div');
+        bioCounter.className = 'text-muted';
+        bioCounter.style.fontSize = '0.8rem';
+        bioCounter.style.textAlign = 'right';
+        bioCounter.style.marginTop = '0.5rem';
+        bioTextarea.parentNode.appendChild(bioCounter);
+        
+        function updateCounter() {
+            const remaining = 500 - bioTextarea.value.length;
+            bioCounter.textContent = `${remaining} characters remaining`;
+        }
+        
+        bioTextarea.addEventListener('input', updateCounter);
+        updateCounter();
+    </script>
+</body>
+</html>

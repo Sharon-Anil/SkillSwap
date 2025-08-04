@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ creator.channel_name }} - Channel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        .channel-header { display: flex; align-items: center; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .channel-header img {
+            width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;
+        }
+        .channel-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .channel-info h2 { margin: 0; font-size: 24px; }
+        .channel-info p { margin: 4px 0; color: #555; }
+        .actions {
+            margin-top: 10px;
+        }
+        .actions button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .video-section {
+            margin-top: 30px;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .video-card {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .video-card img {
+            width: 100%;
+            border-radius: 5px;
+            height: 140px;
+            object-fit: cover;
+        }
+        .video-card h4 {
+            margin: 10px 0 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="channel-header">
+    <img src="{{ url_for('static', filename='profiles/' + creator.profile_picture) }}" alt="Profile Picture">
+    <div class="channel-info">
+        <h2>{{ creator.channel_name }}</h2>
+        <p><strong>Creator:</strong> {{ creator.username }}</p>
+        <p><strong>Category:</strong> {{ creator.category }}</p>
+        <div class="actions">
+            <button>Share</button>
+            <button>Subscribe</button>
+        </div>
+    </div>
+</div>
+
+<div class="video-section">
+    <h3>Uploads</h3>
+    <div class="video-grid">
+        {% for video in videos %}
+            <div class="video-card">
+                <img src="{{ url_for('static', filename='thumbnails/' + video.thumbnail) }}" alt="Thumbnail">
+                <h4>{{ video.title }}</h4>
+                {% if video.coin_cost == 0 or video.id in unlocked_videos %}
+                    <a href="{{ url_for('main.watch_video', video_id=video.id) }}">Watch</a>
+                {% else %}
+                    <a href="{{ url_for('main.unlock_video', video_id=video.id) }}">Unlock for {{ video.coin_cost }} coins</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ video.title }} - Watch</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .video-container { max-width: 800px; margin: 0 auto; }
+        .creator-info { display: flex; align-items: center; margin-top: 20px; }
+        .creator-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        .creator-info div {
+            display: flex;
+            flex-direction: column;
+        }
+        .creator-info button {
+            margin-top: 10px;
+            padding: 6px 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="video-container">
+    <h2>{{ video.title }}</h2>
+    <video controls>
+        <source src="{{ url_for('static', filename='videos/' + video.filename) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <p>{{ video.description }}</p>
+
+    <div class="creator-info">
+        <img src="{{ url_for('static', filename='profiles/' + creator.profile_picture) }}" alt="Profile Picture">
+        <div>
+            <strong>{{ creator.username }}</strong>
+            <span>Channel: {{ creator.channel_name }}</span>
+            <span>Category: {{ creator.category }}</span>
+            <form action="{{ url_for('main.channel_view', name=creator.channel_name) }}" method="get">
+                <button type="submit">Know About Creator</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.channel_name or "Creator Dashboard" }} - SkillSwap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .channel-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .profile-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            border: 3px solid white;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .channel-info h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .channel-meta {
+            display: flex;
+            gap: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge {
+            background: var(--primary-light);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #e5177b;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .video-info {
+            padding: 1rem;
+        }
+        
+        .video-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .coin-count {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--warning);
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: #adb5bd;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .channel-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .channel-meta {
+                justify-content: center;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Creator Dashboard</h1>
+            <a href="{{ url_for('main.logout') }}" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </header>
+        
+        <div class="channel-header">
+            {% if user.profile_picture %}
+                <img src="{{ url_for('static', filename='profiles/' ~ user.profile_picture) }}" 
+                     alt="Profile Picture" class="profile-pic">
+            {% else %}
+                <div class="profile-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            {% endif %}
+            
+            <div class="channel-info">
+                <h1>{{ user.channel_name or user.username }}</h1>
+                <div class="channel-meta">
+                    {% if user.category %}
+                        <span class="badge">{{ user.category }}</span>
+                    {% else %}
+                        <span>Category not set</span>
+                    {% endif %}
+                    <span>{{ videos|length }} videos</span>
+                </div>
+                <p>{{ user.bio or "No bio added yet" }}</p>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="{{ url_for('main.setup_channel') }}" class="btn">
+                <i class="fas fa-cog"></i> Edit Channel
+            </a>
+            <a href="{{ url_for('main.upload_video') }}" class="btn btn-outline">
+                <i class="fas fa-upload"></i> Upload New Video
+            </a>
+        </div>
+        
+        <h2 class="section-title">Your Uploaded Videos</h2>
+        
+        {% if videos %}
+            <div class="videos-grid">
+                {% for video in videos %}
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <video controls>
+                                <source src="{{ url_for('static', filename='videos/' ~ video.filename) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <span class="video-duration">5:30</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>{{ video.title }}</h3>
+                            <p>{{ video.description }}</p>
+                            <div class="video-stats">
+                                <span class="coin-count">
+                                    <i class="fas fa-coins"></i> {{ video.coin_cost }}
+                                </span>
+                                <span>120 views</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-video-slash"></i>
+                <h3>No Videos Uploaded Yet</h3>
+                <p>Start sharing your knowledge by uploading your first video</p>
+                <a href="{{ url_for('main.upload_video') }}" class="btn">
+                    <i class="fas fa-upload"></i> Upload Video
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Add interactivity to video cards
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't navigate if clicking on controls or links
+                if (e.target.tagName === 'VIDEO' || e.target.closest('a')) {
+                    return;
+                }
+                // In a real app, this would navigate to the video detail page
+                console.log('Navigating to video detail page');
+            });
+        });
+        
+        // Calculate and display video duration (placeholder - would need actual duration in your backend)
+        document.querySelectorAll('.video-thumbnail video').forEach(video => {
+            video.addEventListener('loadedmetadata', function() {
+                const duration = video.duration;
+                const minutes = Math.floor(duration / 60);
+                const seconds = Math.floor(duration % 60);
+                const durationElement = video.parentElement.querySelector('.video-duration');
+                if (durationElement) {
+                    durationElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKILLSWAP | Armor Up Your Skills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== LOGO & HEADING ===== */
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5),
+                        0 0 60px rgba(0, 242, 255, 0.3);
+            animation: pulse 3s infinite alternate, float 4s ease-in-out infinite;
+        }
+
+        .logo i {
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #00b894, #55efc4);
+        }
+
+        .btn-register {
+            background: linear-gradient(45deg, #0984e3, #74b9ff);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        /* ===== DEVELOPER CREDIT POPUP ===== */
+        .dev-credit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+            border-left: 3px solid var(--neon-pink);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dev-credit.show {
+            transform: translateX(0);
+        }
+
+        .dev-credit i {
+            color: var(--neon-pink);
+            font-size: 1.2rem;
+        }
+
+        .dev-credit p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .dev-credit p span {
+            color: var(--neon-blue);
+            font-weight: 600;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+            100% { box-shadow: 0 0 40px rgba(0, 242, 255, 0.6); }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(255, 0, 255, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(0, 242, 255, 0.7); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            p { font-size: 1.1rem; }
+            .button-container { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo with Icon -->
+        <div class="logo">
+            <i class="fas fa-exchange-alt"></i>
+        </div>
+
+        <!-- Heading & Tagline -->
+        <h1>SKILLSWAP</h1>
+        <p>ARMOR UP YOUR SKILLS WITH THE BEST COMMUNITY</p>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <a href="/login" class="btn btn-login">
+                <i class="fas fa-sign-in-alt"></i> LOGIN
+            </a>
+            <a href="/register" class="btn btn-register">
+                <i class="fas fa-user-plus"></i> REGISTER
+            </a>
+        </div>
+    </div>
+
+    <!-- Developer Credit Popup -->
+    <div class="dev-credit" id="devCredit">
+        <i class="fas fa-code"></i>
+        <p>Created by <span>Sharon Anil</span></p>
+    </div>
+
+    <script>
+        // Show dev credit after delay
+        setTimeout(() => {
+            document.getElementById('devCredit').classList.add('show');
+        }, 3000);
+
+        // Floating particles (optional)
+        const container = document.querySelector('body');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = `${Math.random() * 6 + 2}px`;
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`;
+            particle.style.borderRadius = '50%';
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.opacity = '0';
+            particle.style.animation = `floatParticle ${Math.random() * 15 + 10}s linear infinite`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            container.appendChild(particle);
+
+            // Fade in
+            setTimeout(() => {
+                particle.style.opacity = '1';
+            }, 100);
+        }
+
+        // Keyframes for particles
+        const styleSheet = document.createElement('style');
+        styleSheet.innerHTML = `
+            @keyframes floatParticle {
+                0% { transform: translateY(0) translateX(0); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(-100vh) translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
